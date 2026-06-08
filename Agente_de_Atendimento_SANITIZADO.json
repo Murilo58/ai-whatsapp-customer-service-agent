@@ -1,0 +1,951 @@
+{
+  "name": "Agente de Atendimento",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3264,
+        -496
+      ],
+      "id": "e8b9557e-f9e4-431a-a3d8-53e65c9f5938",
+      "name": "Webhook",
+      "webhookId": "REMOVIDO"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"numero\": \"{{ $json.body.data.key.remoteJid }}\",\n  \"mensagem\": \"{{ $json.body.data.message.conversation || $json.body.data.message.extendedTextMessage?.text || $json.body.data.message.imageMessage?.caption || '' }}\",\n  \"nome\": \"{{ $json.body.data.pushName || 'Cliente' }}\",\n  \"instancia\": \"{{ $json.body.instance }}\",\n  \"fromMe\": \"{{ $json.body.data.key.fromMe }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3072,
+        -288
+      ],
+      "id": "40476cd0-eba6-4828-85dd-ed711af9db46",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.mensagem }}",
+        "options": {
+          "systemMessage": "Você é a assistente virtual Lucas Barros da Orizon AI & Projects.\n\nSeu papel é atender clientes pelo WhatsApp de forma profissional, cordial e consultiva, ajudando a identificar oportunidades relacionadas a automação, inteligência artificial, integração de sistemas e melhoria de processos.\n\nAo iniciar o atendimento você deverá informar sobre a missão da empresa e, em seguida, apresentar as opções de atendimento disponíveis:\n\n• Assuntos Financeiros\n• Assuntos Comerciais\n• Suporte Técnico\n\nDeverá comunicar ao cliente o horário de atendimento da empresa:\n\n• Segunda a sexta-feira\n• Das 09:00 às 18:00\n• Não trabalhamos aos finais de semana nem feriados\n\nCaso o contato ocorra fora do horário comercial, informe que a solicitação será registrada e retornaremos assim que possível.\n\nIDENTIDADE DA EMPRESA\n\nA Orizon AI & Projects atua com:\n\n• Automação de processos empresariais\n• Agentes de Inteligência Artificial\n• Integrações utilizando n8n\n• Automação de WhatsApp\n• Integração de APIs\n• Google Workspace (Gmail, Google Sheets e Google Drive)\n• Produtividade operacional\n• Transformação digital\n• Gestão de projetos\n• Consultoria em automação e IA aplicada\n\nESTILO DE ATENDIMENTO\n\n• Responda sempre em português do Brasil.\n• Seja cordial, profissional e objetivo.\n• Utilize linguagem simples e acessível.\n• Evite respostas excessivamente longas.\n• Demonstre interesse genuíno em ajudar.\n• Faça perguntas quando necessário para compreender melhor o cenário do cliente.\n• Nunca invente informações.\n• Nunca forneça informações não confirmadas.\n• Caso não saiba responder algo, informe educadamente que será necessário avaliar melhor a situação.\n\nQUALIFICAÇÃO DE OPORTUNIDADES\n\nDurante a conversa procure entender, de forma natural:\n\n• Nome do cliente\n• Empresa\n• Segmento de atuação\n• Principal desafio ou necessidade\n• Processo que deseja melhorar ou automatizar\n• Ferramentas utilizadas atualmente\n• Resultado esperado\n\nNão faça muitas perguntas ao mesmo tempo.\n\nCONVERSÃO PARA REUNIÃO\n\nQuando identificar interesse em:\n\n• Inteligência Artificial\n• Automação de Processos\n• WhatsApp Business\n• n8n\n• Integração de Sistemas\n• Redução de tarefas manuais\n• Produtividade Operacional\n\nofereça uma reunião de diagnóstico para entender melhor a necessidade e avaliar possíveis soluções.\n\nENCAMINHAMENTO PARA ESPECIALISTAS\n\nQuando identificar claramente o assunto do cliente:\n\n• Financeiro → utilizar AgenteFinanceiro\n• Comercial → utilizar AgenteComercial\n• Suporte Técnico → utilizar AgenteSuporte\n\nAo encaminhar para um especialista, envie o contexto completo da conversa, incluindo nome do cliente, necessidade identificada e informações relevantes já coletadas.\n\nIMPORTANTE:\n\nQuando acionar o AgenteSuporte, AgenteFinanceiro ou AgenteComercial, use exatamente a resposta retornada pela ferramenta chamada.\n\nNão reescreva a resposta.\nNão troque o nome do atendente.\nNão acrescente saudação própria.\nNão diga \"eu sou Lucas Barros\" depois que um especialista responder.\nA resposta final ao cliente deve ser exatamente o texto retornado pelo especialista.\n\nAGENDAMENTO DE REUNIÕES\n\nQuando o cliente solicitar uma reunião, demonstração, consultoria, diagnóstico ou apresentação comercial, conduza o processo de agendamento.\n\nAntes de criar qualquer evento, obtenha obrigatoriamente:\n\n• Nome completo\n• E-mail\n• Data desejada\n• Horário desejado\n\nCaso alguma informação esteja faltando, solicite apenas os dados pendentes.\n\nApós coletar todas as informações, apresente um resumo:\n\nNome:\nE-mail:\nData:\nHorário:\n\nEm seguida pergunte:\n\n\"Posso confirmar o agendamento com essas informações?\"\n\nSomente continue quando o cliente responder claramente:\n\n• Sim\n• Confirmo\n• Pode agendar\n• Está correto\n• Prosseguir\n\nUSO DO GOOGLE CALENDAR\n\nApós a confirmação do cliente:\n\n• Utilize a ferramenta Google Calendar.\n• Aguarde a execução da ferramenta.\n• Nunca informe que a reunião foi agendada antes da criação do evento.\n• Somente confirme o agendamento após a execução bem-sucedida da ferramenta.\n\nCONFIGURAÇÃO DO EVENTO\n\nTítulo:\n\nDiagnóstico Orizon - Nome do Cliente\n\nDescrição:\n\nNome do cliente\nE-mail do cliente\nObjetivo da reunião\nResumo da necessidade apresentada\n\nPARTICIPANTES\n\nAo criar o evento:\n\n• Utilize o e-mail informado pelo cliente como participante.\n• Nunca deixe o participante vazio.\n• O convite deverá ser enviado automaticamente pelo Google Calendar.\n\nDATA E HORÁRIO\n\n• Utilizar o fuso horário America/Sao_Paulo.\n• Considerar duração padrão de 60 minutos.\n• Caso o cliente informe outra duração, utilizar a duração solicitada.\n• Caso o horário não esteja disponível, sugerir alternativas.\n\nCONFIRMAÇÃO FINAL\n\nApós a criação bem-sucedida do evento, responda:\n\n\"Sua reunião foi agendada com sucesso. Você receberá um convite por e-mail com todos os detalhes da reunião.\"\n\nFORMATAÇÃO DAS RESPOSTAS\n\n• Responda sempre em texto simples.\n• Nunca utilize JSON.\n• Nunca utilize Markdown.\n• Nunca utilize caracteres de formatação como **, ## ou blocos de código.\n• Utilize listas simples quando necessário.\n• As respostas devem ser compatíveis com WhatsApp.\n\nCOMPORTAMENTO\n\n• Comporte-se como um consultor da Orizon AI & Projects.\n• Seja prestativo, cordial e objetivo.\n• Mantenha o foco em compreender a necessidade do cliente e gerar valor durante a conversa.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2752,
+        -384
+      ],
+      "id": "1b5652c4-67c9-4c6c-9644-e1eff154f01d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -2960,
+        0
+      ],
+      "id": "00a0f0bb-abd8-441b-a9d3-cb0b29fd9a93",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "REMOVIDO": "Credenciais removidas"
+      }
+    },
+    {
+      "parameters": {
+        "calendar": "REMOVIDO",
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', `Retorne a data e hora de início da reunião no formato ISO 8601.\n\nExemplo:\n2026-06-07T15:00:00-03:00\n\nUtilize a data e horário confirmados pelo usuário.\nConsidere o fuso horário America/Sao_Paulo.`, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', `Retorne a data e hora de término da reunião no formato ISO 8601.\n\nExemplo:\n2026-06-07T16:00:00-03:00\n\nConsidere duração padrão de 60 minutos, salvo quando o usuário informar outra duração.\nUtilize o fuso horário America/Sao_Paulo.`, 'string') }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('attendees0_Attendees', `E-mail do participante.\n\nRetorne somente o endereço de e-mail informado pelo usuário.\n\nExemplo:\nmgcosta.mgc@gmail.com\n\nNunca retorne nome.\nNunca retorne texto adicional.\nRetorne apenas um e-mail válido.`, 'string') }}"
+          ],
+          "sendUpdates": "all",
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', `Diagnóstico Orizon - Nome do Cliente`, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -2144,
+        -160
+      ],
+      "id": "8ff90bce-3d58-4b2d-bc13-8d31ff58de3b",
+      "name": "Create an event in Google Calendar",
+      "credentials": {
+        "REMOVIDO": "Credenciais removidas"
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.instancia + '_' + $json.numero }}",
+        "sessionTTL": 86400
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.6,
+      "position": [
+        -2752,
+        32
+      ],
+      "id": "2bb2fe3c-6070-4744-ab98-7f9de2053005",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "REMOVIDO": "Credenciais removidas"
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": "REMOVIDO",
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Mensagem": "={{ $json.mensagem }}",
+            "ChatID": "={{ $json.numero }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Mensagem",
+              "displayName": "Mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ChatID",
+              "displayName": "ChatID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2192,
+        48
+      ],
+      "id": "82f6c143-13d9-485c-b655-1a4402651ecd",
+      "name": "AgenteFinanceiro"
+    },
+    {
+      "parameters": {
+        "workflowId": "REMOVIDO",
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Mensagem": "={{ $json.mensagem }}",
+            "ChatID": "={{ $json.numero }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Mensagem",
+              "displayName": "Mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "ChatID",
+              "displayName": "ChatID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2512,
+        64
+      ],
+      "id": "70eaa159-103c-4172-91e5-b8eda16083f9",
+      "name": "AgenteSuporte"
+    },
+    {
+      "parameters": {
+        "workflowId": "REMOVIDO",
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Mensagem": "={{ $json.mensagem }}",
+            "ChatID": "={{ $json.numero }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Mensagem",
+              "displayName": "Mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "ChatID",
+              "displayName": "ChatID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2320,
+        96
+      ],
+      "id": "d393d0be-fa1b-4bb4-9913-4702a0a0e1d6",
+      "name": "Agente Comercial"
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $json.mensagem || '';\nconst instancia = $json.instancia || 'orizon';\n\nconst telefone = ($json.numero || '')\n  .split('@')[0]\n  .replace(/\\D/g, '');\n\nconst email =\n  msg.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}/)?.[0] ||\n  'Não informado';\n\nlet nome = $json.nome || 'Não informado';\n\nconst nomeMatch = msg.match(\n  /(?:meu nome é|me chamo|sou o|sou a|aqui é|aqui é o|aqui é a|olá,\\s*me chamo|ola,\\s*me chamo|olá,\\s*sou|ola,\\s*sou)\\s+([A-Za-zÀ-ÿ\\s]{2,80})/i\n);\n\nif (nomeMatch?.[1]) {\n  nome = nomeMatch[1]\n    .trim()\n    .replace(/[.,!?].*$/, '')\n    .trim();\n}\n\nconst texto = msg.toLowerCase();\n\nlet categoria = 'Comercial';\n\nif (\n  texto.includes('financeiro') ||\n  texto.includes('boleto') ||\n  texto.includes('pagamento') ||\n  texto.includes('pagar') ||\n  texto.includes('nota fiscal') ||\n  texto.includes('nf') ||\n  texto.includes('cobrança') ||\n  texto.includes('cobranca') ||\n  texto.includes('fatura') ||\n  texto.includes('segunda via') ||\n  texto.includes('pix') ||\n  texto.includes('reembolso') ||\n  texto.includes('valor cobrado')\n) {\n  categoria = 'Financeiro';\n} else if (\n  texto.includes('suporte') ||\n  texto.includes('erro') ||\n  texto.includes('problema') ||\n  texto.includes('lentidão') ||\n  texto.includes('lentidao') ||\n  texto.includes('falha') ||\n  texto.includes('bug') ||\n  texto.includes('sistema') ||\n  texto.includes('n8n') ||\n  texto.includes('não funciona') ||\n  texto.includes('nao funciona') ||\n  texto.includes('não consigo') ||\n  texto.includes('nao consigo') ||\n  texto.includes('travando') ||\n  texto.includes('dúvida técnica') ||\n  texto.includes('duvida tecnica') ||\n  texto.includes('instabilidade') ||\n  texto.includes('integração com erro') ||\n  texto.includes('integracao com erro')\n) {\n  categoria = 'Suporte';\n} else if (\n  texto.includes('comercial') ||\n  texto.includes('proposta') ||\n  texto.includes('orçamento') ||\n  texto.includes('orcamento') ||\n  texto.includes('serviços') ||\n  texto.includes('servicos') ||\n  texto.includes('contratar') ||\n  texto.includes('preço') ||\n  texto.includes('preco') ||\n  texto.includes('valores') ||\n  texto.includes('diagnóstico') ||\n  texto.includes('diagnostico') ||\n  texto.includes('consultoria') ||\n  texto.includes('automação') ||\n  texto.includes('automacao') ||\n  texto.includes('inteligência artificial') ||\n  texto.includes('inteligencia artificial') ||\n  texto.includes('ia')\n) {\n  categoria = 'Comercial';\n}\n\nconst assunto = msg || 'Não informado';\n\nreturn [\n  {\n    json: {\n      ...$json,\n      nome,\n      telefone,\n      email,\n      assunto,\n      categoria,\n      instancia,\n\n      nomeExtraido: nome,\n      telefoneLimpo: telefone,\n      emailExtraido: email,\n      categoriaDetectada: categoria\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2896,
+        -560
+      ],
+      "id": "b8b20090-0c71-47bf-b724-43dda522736b",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "const dadosEntrada = $('Code in JavaScript').first().json;\nconst dadosAgente = $('AI Agent').first().json;\n\nconst nome = dadosEntrada.nome || '';\nconst telefone = dadosEntrada.telefone || '';\nconst email = dadosEntrada.email || '';\nconst assunto = dadosEntrada.assunto || '';\nconst categoria = dadosEntrada.categoria || '';\n\nconst resposta_whatsapp = dadosAgente.output || '';\n\nconst cadastro_finalizado =\n  nome !== 'Não informado' &&\n  telefone !== '' &&\n  assunto !== 'Não informado' &&\n  categoria !== '';\n\nreturn [\n  {\n    json: {\n      ...dadosEntrada,\n      resposta_whatsapp,\n      cadastro_finalizado\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2464,
+        -384
+      ],
+      "id": "f15ba7c2-ac8e-4256-916a-337d2a101fb2",
+      "name": "PrepararRegisttro"
+    },
+    {
+      "parameters": {
+        "documentId": "REMOVIDO",
+        "sheetName": {
+          "__rl": true,
+          "value": 423642539,
+          "mode": "list",
+          "cachedResultName": "Planilha2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nzQEBYK40PpuAJa9BI1Ro6fhO5h9nwT8xX9PQ-VohsE/edit#gid=423642539"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Categoria",
+              "lookupValue": "={{ $('PrepararRegisttro').first().json.categoria }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2096,
+        -576
+      ],
+      "id": "9c121f25-29ae-4282-b1af-60dacdba0c72",
+      "name": "ObtemDadosAtendente",
+      "credentials": {
+        "REMOVIDO": "Credenciais removidas"
+      }
+    },
+    {
+      "parameters": {
+        "documentId": "REMOVIDO",
+        "sheetName": {
+          "__rl": true,
+          "value": 1636604331,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-fXcUBbQV8OYSVHSI9xknm85iJL3bK14IOQ5kdjdq0o/edit#gid=1636604331"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Telefone",
+              "lookupValue": "={{ $('Webhook').item.json.body.data.key.remoteJidAlt.split('@')[0] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1872,
+        -576
+      ],
+      "id": "3eda8cb6-d9b5-4f74-8062-7bd48bdb6bda",
+      "name": "ColunaTelefone",
+      "alwaysOutputData": true,
+      "credentials": {
+        "REMOVIDO": "Credenciais removidas"
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "44c95a1e-2c79-43b8-8576-232a23598d34",
+              "leftValue": "={{ Object.keys($json).length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1648,
+        -576
+      ],
+      "id": "fa354f2c-6bc5-4d54-ab97-12b7b4021da4",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "REMOVIDO",
+        "sheetName": {
+          "__rl": true,
+          "value": 1636604331,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-fXcUBbQV8OYSVHSI9xknm85iJL3bK14IOQ5kdjdq0o/edit#gid=1636604331"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Categoria": "={{ $('PrepararRegisttro').first().json.categoria }}",
+            "Atendente": "={{ $('ObtemDadosAtendente').first().json.Atendente }}",
+            "Nome": "={{ $('PrepararRegisttro').first().json.nome }}",
+            "Telefone": "={{ $('Webhook').item.json.body.data.key.remoteJidAlt.split('@')[0] }}",
+            "Assunto": "={{ $('PrepararRegisttro').first().json.assunto }}",
+            "E-mail": "={{ $('PrepararRegisttro').first().json.email }}\n"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assunto",
+              "displayName": "Assunto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Atendente",
+              "displayName": "Atendente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "E-mail",
+              "displayName": "E-mail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Categoria",
+              "displayName": "Categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1360,
+        -416
+      ],
+      "id": "6792c842-5a55-4481-9880-ff57eacef67e",
+      "name": "Append row in sheet",
+      "credentials": {
+        "REMOVIDO": "Credenciais removidas"
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": "REMOVIDO",
+        "sheetName": {
+          "__rl": true,
+          "value": 1636604331,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-fXcUBbQV8OYSVHSI9xknm85iJL3bK14IOQ5kdjdq0o/edit#gid=1636604331"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $('PrepararRegisttro').first().json.nome }}",
+            "Telefone": "={{ $('Webhook').item.json.body.data.key.remoteJidAlt.split('@')[0] }}",
+            "Assunto": "={{ $('PrepararRegisttro').first().json.assunto }}",
+            "Atendente": "={{ $('ObtemDadosAtendente').first().json.Atendente }}",
+            "E-mail": "={{ $('PrepararRegisttro').first().json.email }}",
+            "Categoria": "={{ $('PrepararRegisttro').first().json.categoria }}",
+            "row_number": "={{ $json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assunto",
+              "displayName": "Assunto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Atendente",
+              "displayName": "Atendente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "E-mail",
+              "displayName": "E-mail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Categoria",
+              "displayName": "Categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1648,
+        -304
+      ],
+      "id": "85d17f5a-3468-49e9-9bae-52e19e0cc97a",
+      "name": "Update row in sheet",
+      "credentials": {
+        "REMOVIDO": "Credenciais removidas"
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9f4d407e-3324-4696-b05f-777fa65beba6",
+              "leftValue": "={{ $('PrepararRegisttro').first().json.cadastro_finalizado }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2256,
+        -384
+      ],
+      "id": "4a4a5dd3-c683-44e0-8d87-eb0964d71976",
+      "name": "IfCadastroFinalizado"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SEU-ENDPOINT-AQUI",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": " murilo2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Edit Fields').item.json.numero }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('PrepararRegisttro').first().json.resposta_whatsapp.replace(/\\{[\\s\\S]*?\\}\\s*$/,'').trim() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1984,
+        -304
+      ],
+      "id": "0e98db98-8680-43bd-85d5-d9c3f4679f49",
+      "name": "HTTP RequestCadastroFinalizado"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SEU-ENDPOINT-AQUI",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": " murilo2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Edit Fields').item.json.numero }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('PrepararRegisttro').first().json.resposta_whatsapp.replace(/\\{[\\s\\S]*?\\}\\s*$/,'').trim() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1232,
+        -624
+      ],
+      "id": "3014428b-0455-4968-a918-2b81457f865f",
+      "name": "HTTP RequestApeendRow"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SEU-ENDPOINT-AQUI",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": " murilo2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Edit Fields').item.json.numero }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('PrepararRegisttro').first().json.resposta_whatsapp.replace(/\\{[\\s\\S]*?\\}\\s*$/,'').trim() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1216,
+        -240
+      ],
+      "id": "f036f5d1-7bd6-44d8-a0fd-1550111a7ce8",
+      "name": "HTTP RequestUpdateRow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "PrepararRegisttro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AgenteFinanceiro": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AgenteSuporte": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente Comercial": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PrepararRegisttro": {
+      "main": [
+        [
+          {
+            "node": "IfCadastroFinalizado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ObtemDadosAtendente": {
+      "main": [
+        [
+          {
+            "node": "ColunaTelefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ColunaTelefone": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "HTTP RequestApeendRow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IfCadastroFinalizado": {
+      "main": [
+        [
+          {
+            "node": "ObtemDadosAtendente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP RequestCadastroFinalizado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "HTTP RequestUpdateRow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP RequestApeendRow": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "13e4a306-0148-4199-9df7-8f8c31f49929",
+  "meta": {
+    "REMOVIDO": "Metadados removidos"
+  },
+  "id": "S1yYDOAT6CPmUZyg",
+  "tags": []
+}
