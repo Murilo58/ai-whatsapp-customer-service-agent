@@ -71,3 +71,9 @@ Projeto funcional em ambiente self-hosted, utilizando VPS, n8n, Evolution API, b
 ## Observação
 
 Este repositório apresenta uma versão demonstrativa e sanitizada do fluxo, sem chaves, tokens, credenciais, URLs privadas ou dados sensíveis.
+
+## Documentação Técnica
+
+Para mais detalhes sobre a arquitetura e os componentes da solução:
+
+📄 [Arquitetura da Solução](docs/arquitetura.md)
