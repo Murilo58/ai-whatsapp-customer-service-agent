@@ -2,6 +2,16 @@
 
 Instalação completa da Evolution API v2 utilizando Docker, PostgreSQL e Redis em uma VPS Hostinger, integrada ao n8n para construção de agentes inteligentes de atendimento via WhatsApp.
 
+![Hostinger](https://img.shields.io/badge/Hostinger-VPS-673DE6)
+
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+
+![Ubuntu](https://img.shields.io/badge/Ubuntu-24.04-E95420?logo=ubuntu&logoColor=white)
+
+![n8n](https://img.shields.io/badge/n8n-AI%20Automation-FF6D5A)
+
+![Evolution API](https://img.shields.io/badge/Evolution%20API-v2-green)
+
 ---
 
 # 📋 Visão Geral
