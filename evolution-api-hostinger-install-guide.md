@@ -1,4 +1,19 @@
-# 🚀 Evolution API v2 + n8n + Hostinger VPS
+# 🚀 Evolution API v2 Installation Guide
+Hostinger VPS + Docker + PostgreSQL + Redis + n8n
+
+## 🎯 Objetivo
+
+Este guia documenta o processo completo de instalação da Evolution API v2 em uma VPS Hostinger utilizando Docker, PostgreSQL e Redis.
+
+Ao final deste tutorial você será capaz de:
+
+- Instalar a Evolution API v2
+- Configurar PostgreSQL e Redis
+- Criar instâncias WhatsApp
+- Conectar via QR Code
+- Integrar com n8n
+- Configurar Webhooks
+- Criar agentes de IA para atendimento automatizado
 
 Instalação completa da Evolution API v2 utilizando Docker, PostgreSQL e Redis em uma VPS Hostinger, integrada ao n8n para construção de agentes inteligentes de atendimento via WhatsApp.
 
